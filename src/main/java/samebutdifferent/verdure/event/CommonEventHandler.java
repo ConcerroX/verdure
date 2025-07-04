@@ -71,7 +71,6 @@ public class CommonEventHandler {
 //                    if (VerdureConfig.GENERATE_DARK_OAK_HUMUS.get()) {
 //                        replaceTrees(event, Biomes.DARK_FOREST.location(), VegetationPlacements.DARK_FOREST_VEGETATION, VerdurePlacedFeatures.DARK_FOREST_VEGETATION);
 //                    }
-//                    addFeature(builder, GenerationStep.Decoration.LOCAL_MODIFICATIONS, VerdurePlacedFeatures.BOULDER_STONE, VerdureConfig.GENERATE_BOULDER.get());
 //                    addFeature(builder, GenerationStep.Decoration.UNDERGROUND_ORES, VerdurePlacedFeatures.SMOOTH_DIRT_PATCH, VerdureConfig.GENERATE_SMOOTH_DIRT_PATCH.get());
 //                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.FALLEN_LOG, VerdureConfig.GENERATE_FALLEN_LOG.get());
 //                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.MUSHROOM_SHELF, VerdureConfig.GENERATE_MUSHROOM_SHELF_SURFACE.get());
@@ -83,22 +82,17 @@ public class CommonEventHandler {
 //                    addGrassyAreaFeatures(builder);
 //                }
 //                case RIVER -> {
-//                    addFeature(builder, GenerationStep.Decoration.LOCAL_MODIFICATIONS, VerdurePlacedFeatures.BOULDER_SLATE, VerdureConfig.GENERATE_BOULDER.get());
 //                }
 //                case JUNGLE -> {
 //                    replaceTrees(event, Biomes.SPARSE_JUNGLE.location(), VegetationPlacements.TREES_SPARSE_JUNGLE, VerdurePlacedFeatures.TREES_SPARSE_JUNGLE);
 //                    replaceTrees(event, Biomes.JUNGLE.location(), VegetationPlacements.TREES_JUNGLE, VerdurePlacedFeatures.TREES_JUNGLE);
 //                    replaceTrees(event, Biomes.BAMBOO_JUNGLE.location(), VegetationPlacements.TREES_JUNGLE, VerdurePlacedFeatures.TREES_JUNGLE);
-//                    addFeature(builder, GenerationStep.Decoration.LOCAL_MODIFICATIONS, VerdurePlacedFeatures.BOULDER_SLATE, VerdureConfig.GENERATE_BOULDER.get());
 //                    addFeature(builder, GenerationStep.Decoration.UNDERGROUND_ORES, VerdurePlacedFeatures.SMOOTH_DIRT_PATCH, VerdureConfig.GENERATE_SMOOTH_DIRT_PATCH.get());
 //                    addFeature(builder, GenerationStep.Decoration.UNDERGROUND_ORES, VerdurePlacedFeatures.HUMUS_PATCH, VerdureConfig.GENERATE_HUMUS_PATCH.get());
 //                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.FALLEN_LOG, VerdureConfig.GENERATE_FALLEN_LOG.get());
 //                    addGrassyAreaFeatures(builder);
 //                }
 //                case TAIGA -> {
-//                    if (location.equals(Biomes.TAIGA.location()) || location.equals(Biomes.SNOWY_TAIGA.location())) {
-//                        addFeature(builder, GenerationStep.Decoration.LOCAL_MODIFICATIONS, VerdurePlacedFeatures.BOULDER_DIORITE, VerdureConfig.GENERATE_BOULDER.get());
-//                    }
 //                    replaceTrees(event, Biomes.TAIGA.location(), VegetationPlacements.TREES_TAIGA, VerdurePlacedFeatures.TREES_TAIGA);
 //                    addFeature(builder, GenerationStep.Decoration.UNDERGROUND_ORES, VerdurePlacedFeatures.SMOOTH_DIRT_PATCH, VerdureConfig.GENERATE_SMOOTH_DIRT_PATCH.get());
 //                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.FALLEN_LOG, VerdureConfig.GENERATE_FALLEN_LOG.get());
@@ -108,7 +102,6 @@ public class CommonEventHandler {
 //                case SAVANNA -> {
 //                    replaceTrees(event, Biomes.SAVANNA.location(), VegetationPlacements.TREES_SAVANNA, VerdurePlacedFeatures.TREES_SAVANNA);
 //                    replaceTrees(event, Biomes.WINDSWEPT_SAVANNA.location(), VegetationPlacements.TREES_WINDSWEPT_SAVANNA, VerdurePlacedFeatures.TREES_WINDSWEPT_SAVANNA);
-//                    addFeature(builder, GenerationStep.Decoration.LOCAL_MODIFICATIONS, VerdurePlacedFeatures.BOULDER_GRANITE, VerdureConfig.GENERATE_BOULDER.get());
 //                    addFeature(builder, GenerationStep.Decoration.UNDERGROUND_ORES, VerdurePlacedFeatures.SMOOTH_DIRT_PATCH, VerdureConfig.GENERATE_SMOOTH_DIRT_PATCH.get());
 //                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.FALLEN_LOG_SAVANNA, VerdureConfig.GENERATE_FALLEN_LOG.get());
 //                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.PATCH_CLOVER, VerdureConfig.GENERATE_CLOVER_PATCH.get());
@@ -116,7 +109,6 @@ public class CommonEventHandler {
 //                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.ROCK, VerdureConfig.GENERATE_ROCK.get());
 //                }
 //                case BEACH -> {
-//                    addFeature(builder, GenerationStep.Decoration.LOCAL_MODIFICATIONS, VerdurePlacedFeatures.BOULDER_ANDESITE, VerdureConfig.GENERATE_BOULDER.get());
 //                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.ROCK, VerdureConfig.GENERATE_ROCK.get());
 //                }
 //                case SWAMP -> {
@@ -157,15 +149,6 @@ public class CommonEventHandler {
 //                }
 //            }
 //        }
-//    }
-
-//    private static void addGrassyAreaFeatures(BiomeGenerationSettingsBuilder builder) {
-//        addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.PATCH_CLOVER, VerdureConfig.GENERATE_CLOVER_PATCH.get());
-//        addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.PEBBLES, VerdureConfig.GENERATE_PEBBLES.get());
-//        addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.ROCK, VerdureConfig.GENERATE_ROCK.get());
-//        addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.PATCH_DAISIES, VerdureConfig.GENERATE_DAISIES_PATCH.get());
-//        addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.PATCH_DAISIES_BLUE, VerdureConfig.GENERATE_DAISIES_PATCH.get());
-//        addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.PATCH_DAISIES_PINK, VerdureConfig.GENERATE_DAISIES_PATCH.get());
 //    }
 
     @SubscribeEvent

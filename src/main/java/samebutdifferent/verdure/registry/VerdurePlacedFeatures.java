@@ -26,26 +26,12 @@ public class VerdurePlacedFeatures {
         Registries.PLACED_FEATURE, Verdure.MOD_ID);
 
     // MISC OVERWORLD PLACEMENTS
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> BOULDER_STONE = PLACED_FEATURES.register(
-        "boulder_stone", () -> new PlacedFeature(VerdureConfiguredFeatures.BOULDER_STONE,
-            List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
-                BiomeFilter.biome())));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> BOULDER_DIORITE = PLACED_FEATURES.register(
-        "boulder_diorite", () -> new PlacedFeature(VerdureConfiguredFeatures.BOULDER_DIORITE,
-            List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
-                BiomeFilter.biome())));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> BOULDER_GRANITE = PLACED_FEATURES.register(
-        "boulder_granite", () -> new PlacedFeature(VerdureConfiguredFeatures.BOULDER_GRANITE,
-            List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
-                BiomeFilter.biome())));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> BOULDER_ANDESITE = PLACED_FEATURES.register(
-        "boulder_andesite", () -> new PlacedFeature(VerdureConfiguredFeatures.BOULDER_ANDESITE,
-            List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
-                BiomeFilter.biome())));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> BOULDER_SLATE = PLACED_FEATURES.register(
-        "boulder_slate", () -> new PlacedFeature(VerdureConfiguredFeatures.BOULDER_SLATE,
-            List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
-                BiomeFilter.biome())));
+    public static final ResourceKey<PlacedFeature> BOULDER_STONE = create("boulder_stone");
+    public static final ResourceKey<PlacedFeature> BOULDER_DIORITE = create("boulder_diorite");
+    public static final ResourceKey<PlacedFeature> BOULDER_GRANITE = create("boulder_granite");
+    public static final ResourceKey<PlacedFeature> BOULDER_ANDESITE = create("boulder_andesite");
+    public static final ResourceKey<PlacedFeature> BOULDER_SLATE = create("boulder_slate");
+
     public static final DeferredHolder<PlacedFeature, PlacedFeature> SMOOTH_DIRT_PATCH = PLACED_FEATURES.register(
         "smooth_dirt_patch", () -> new PlacedFeature(VerdureConfiguredFeatures.SMOOTH_DIRT_PATCH,
             List.of(RarityFilter.onAverageOnceEvery(7), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
@@ -60,31 +46,15 @@ public class VerdurePlacedFeatures {
                 BiomeFilter.biome())));
 
     // VEGETATION PLACEMENTS
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> PATCH_CLOVER = PLACED_FEATURES.register(
-        "patch_clover",
-        () -> new PlacedFeature(VerdureConfiguredFeatures.PATCH_CLOVER, worldSurfaceSquaredWithRarityFilter(5)));
-
-
     public static final ResourceKey<PlacedFeature> PEBBLES = create("pebbles");
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> ROCK = PLACED_FEATURES.register("rock",
-        () -> new PlacedFeature(VerdureConfiguredFeatures.ROCK,
-            List.of(RarityFilter.onAverageOnceEvery(2), InSquarePlacement.spread(),
-                PlacementUtils.HEIGHTMAP_WORLD_SURFACE, BlockPredicateFilter.forPredicate(
-                    BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0),
-                        List.of(Blocks.GRASS_BLOCK, Blocks.DIRT, Blocks.PODZOL, Blocks.COARSE_DIRT,
-                            VerdureBlocks.SMOOTH_DIRT.get(), Blocks.SAND))), BiomeFilter.biome())));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> PATCH_DAISIES = PLACED_FEATURES.register(
-        "patch_daisies",
-        () -> new PlacedFeature(VerdureConfiguredFeatures.PATCH_DAISIES, worldSurfaceSquaredWithRarityFilter(14)));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> PATCH_DAISIES_BLUE = PLACED_FEATURES.register(
-        "patch_daisies_blue",
-        () -> new PlacedFeature(VerdureConfiguredFeatures.PATCH_DAISIES_BLUE, worldSurfaceSquaredWithRarityFilter(14)));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> PATCH_DAISIES_PINK = PLACED_FEATURES.register(
-        "patch_daisies_pink",
-        () -> new PlacedFeature(VerdureConfiguredFeatures.PATCH_DAISIES_PINK, worldSurfaceSquaredWithRarityFilter(14)));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> PATCH_WILDFLOWERS = PLACED_FEATURES.register(
-        "patch_wildflowers",
-        () -> new PlacedFeature(VerdureConfiguredFeatures.PATCH_WILDFLOWERS, worldSurfaceSquaredWithRarityFilter(14)));
+    public static final ResourceKey<PlacedFeature> ROCK = create("rock");
+
+    public static final ResourceKey<PlacedFeature> PATCH_CLOVER = create("patch_clover");
+    public static final ResourceKey<PlacedFeature> PATCH_DAISIES = create("patch_daisies");
+    public static final ResourceKey<PlacedFeature> PATCH_DAISIES_BLUE = create("patch_daisies_blue");
+    public static final ResourceKey<PlacedFeature> PATCH_DAISIES_PINK = create("patch_daisies_pink");
+    public static final ResourceKey<PlacedFeature> PATCH_WILDFLOWERS = create("patch_wildflowers");
+
     public static final DeferredHolder<PlacedFeature, PlacedFeature> FALLEN_LOG = PLACED_FEATURES.register("fallen_log",
         () -> new PlacedFeature(VerdureConfiguredFeatures.FALLEN_LOG, worldSurfaceSquaredWithRarityFilter(7)));
     public static final DeferredHolder<PlacedFeature, PlacedFeature> FALLEN_LOG_SAVANNA = PLACED_FEATURES.register(
