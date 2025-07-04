@@ -7,22 +7,21 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import samebutdifferent.verdure.block.TallHangingMossBlock;
-import samebutdifferent.verdure.registry.VerdureBlocks;
+import org.jetbrains.annotations.NotNull;
 
 public class TallHangingMossBlockItem extends BlockItem {
-    public TallHangingMossBlockItem(Block pBlock, Properties pProperties) {
-        super(pBlock, pProperties);
+
+    public TallHangingMossBlockItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     @Override
-    protected boolean placeBlock(BlockPlaceContext pContext, BlockState pState) {
-        Level level = pContext.getLevel();
-        BlockPos belowPos = pContext.getClickedPos().below();
+    protected boolean placeBlock(BlockPlaceContext context, @NotNull BlockState state) {
+        Level level = context.getLevel();
+        BlockPos belowPos = context.getClickedPos().below();
         BlockState belowState = level.isWaterAt(belowPos) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
         level.setBlock(belowPos, belowState, 27);
-        return super.placeBlock(pContext, pState);
+        return super.placeBlock(context, state);
     }
+
 }

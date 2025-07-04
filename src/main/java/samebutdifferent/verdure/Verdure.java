@@ -1,5 +1,6 @@
 package samebutdifferent.verdure;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -26,6 +27,10 @@ public class Verdure {
         VerdureBlockEntityTypes.BLOCK_ENTITY_TYPES.register(bus);
         VerdureTreeDecoratorTypes.TREE_DECORATOR_TYPES.register(bus);
         VerdureConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
+    }
+
+    public static ResourceLocation res(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     @SubscribeEvent

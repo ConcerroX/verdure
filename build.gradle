@@ -2,6 +2,7 @@ plugins {
     id "java-library"
     id "maven-publish"
     id "net.neoforged.moddev" version "2.0.94"
+    id 'org.jetbrains.kotlin.jvm'
     id "idea"
 }
 
@@ -61,10 +62,12 @@ configurations {
 repositories {
     maven { url = 'https://alcatrazescapee.jfrog.io/artifactory/mods' }
     maven { url = "https://cursemaven.com" }
+    mavenCentral()
 }
 
 dependencies {
     runtimeOnly "curse.maven:cyanide-541676:5782674"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 tasks.withType(ProcessResources).configureEach {
@@ -107,4 +110,8 @@ idea {
         downloadSources = true
         downloadJavadoc = true
     }
+}
+
+kotlin {
+    jvmToolchain(21)
 }

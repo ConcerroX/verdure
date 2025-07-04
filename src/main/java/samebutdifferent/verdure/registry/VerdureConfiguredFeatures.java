@@ -6,6 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.TreePlacements;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -32,6 +33,7 @@ import net.minecraft.world.level.levelgen.feature.trunkplacers.DarkOakTrunkPlace
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import samebutdifferent.verdure.Verdure;
@@ -148,13 +150,10 @@ public class VerdureConfiguredFeatures {
         )
         )
     );
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> PEBBLES = CONFIGURED_FEATURES.register(
-        "pebbles",
-        () -> new ConfiguredFeature<>(
-            Feature.SIMPLE_BLOCK,
-            new SimpleBlockConfiguration(BlockStateProvider.simple(VerdureBlocks.PEBBLES.get()))
-        )
-    );
+
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PEBBLES = create("pebbles");
+
     public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> ROCK = CONFIGURED_FEATURES.register(
         "rock",
         () -> new ConfiguredFeature<>(
@@ -465,4 +464,10 @@ public class VerdureConfiguredFeatures {
             new TwoLayersFeatureSize(1, 0, 1)
         );
     }
+
+
+    private static ResourceKey<ConfiguredFeature<?, ?>> create(String path) {
+        return ResourceKey.create(Registries.CONFIGURED_FEATURE, Verdure.res(path));
+    }
+
 }

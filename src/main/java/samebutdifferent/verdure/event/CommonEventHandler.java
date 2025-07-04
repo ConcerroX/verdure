@@ -117,7 +117,6 @@ public class CommonEventHandler {
 //                }
 //                case BEACH -> {
 //                    addFeature(builder, GenerationStep.Decoration.LOCAL_MODIFICATIONS, VerdurePlacedFeatures.BOULDER_ANDESITE, VerdureConfig.GENERATE_BOULDER.get());
-//                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.PEBBLES, VerdureConfig.GENERATE_PEBBLES.get());
 //                    addFeature(builder, GenerationStep.Decoration.VEGETAL_DECORATION, VerdurePlacedFeatures.ROCK, VerdureConfig.GENERATE_ROCK.get());
 //                }
 //                case SWAMP -> {

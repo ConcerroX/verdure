@@ -1,7 +1,6 @@
 package samebutdifferent.verdure.data;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -10,9 +9,9 @@ import samebutdifferent.verdure.registry.VerdureBlocks;
 
 import java.util.Set;
 
-public class ModBlockLoot extends BlockLootSubProvider {
+public class BlockLootSubProvider extends net.minecraft.data.loot.BlockLootSubProvider {
 
-    public ModBlockLoot(HolderLookup.Provider lookupProvider) {
+    public BlockLootSubProvider(HolderLookup.Provider lookupProvider) {
         super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);
     }
 
@@ -25,7 +24,7 @@ public class ModBlockLoot extends BlockLootSubProvider {
 
     @Override
     protected @NotNull Iterable<Block> getKnownBlocks() {
-        return VerdureBlocks.BLOCKS.getEntries().stream().map(e -> (Block) e.value())::iterator;
+        return VerdureBlocks.BLOCKS.getEntries().stream().map(e -> (Block) e.value()).toList();
     }
 
 }
