@@ -2,7 +2,7 @@
   "parent": "minecraft:block/orientable",
   "textures": {
     "top": "minecraft:block/oak_log_top",
-    "front": "verdure:block/hollow_log",
+    "front": "verdure:block/tree_hollow",
     "side": "minecraft:block/oak_log"
   }
 }

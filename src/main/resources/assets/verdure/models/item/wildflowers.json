@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "verdure:block/wildflowers"
+    "layer0": "verdure:item/wildflowers"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "verdure:block/birch_branch"
+    "layer0": "verdure:item/birch_branch"
   }
 }
