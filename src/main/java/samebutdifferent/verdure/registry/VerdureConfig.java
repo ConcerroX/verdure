@@ -1,34 +1,34 @@
 package samebutdifferent.verdure.registry;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class VerdureConfig {
-    public static ForgeConfigSpec COMMON_CONFIG;
+    public static ModConfigSpec COMMON_CONFIG;
     
     // WORLD GENERATION SETTINGS
-    public static final ForgeConfigSpec.BooleanValue GENERATE_BOULDER;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_SMOOTH_DIRT_PATCH;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_HUMUS_PATCH;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_CLOVER_PATCH;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_DAISIES_PATCH;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_PEBBLES;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_ROCK;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_FALLEN_LOG;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_DAISY_TREE;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_OAK_HOLLOW;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_FALLEN_LOG_NETHER;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_MUSHROOM_SHELF_SURFACE;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_MUSHROOM_SHELF_UNDERGROUND;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_HANGING_MOSS;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_TREE_ROOTS;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_TREE_BRANCHES;
-    public static final ForgeConfigSpec.DoubleValue FALLEN_LEAVES_CHANCE;
-    public static final ForgeConfigSpec.BooleanValue GENERATE_DARK_OAK_HUMUS;
+    public static final ModConfigSpec.BooleanValue GENERATE_BOULDER;
+    public static final ModConfigSpec.BooleanValue GENERATE_SMOOTH_DIRT_PATCH;
+    public static final ModConfigSpec.BooleanValue GENERATE_HUMUS_PATCH;
+    public static final ModConfigSpec.BooleanValue GENERATE_CLOVER_PATCH;
+    public static final ModConfigSpec.BooleanValue GENERATE_DAISIES_PATCH;
+    public static final ModConfigSpec.BooleanValue GENERATE_PEBBLES;
+    public static final ModConfigSpec.BooleanValue GENERATE_ROCK;
+    public static final ModConfigSpec.BooleanValue GENERATE_FALLEN_LOG;
+    public static final ModConfigSpec.BooleanValue GENERATE_DAISY_TREE;
+    public static final ModConfigSpec.BooleanValue GENERATE_OAK_HOLLOW;
+    public static final ModConfigSpec.BooleanValue GENERATE_FALLEN_LOG_NETHER;
+    public static final ModConfigSpec.BooleanValue GENERATE_MUSHROOM_SHELF_SURFACE;
+    public static final ModConfigSpec.BooleanValue GENERATE_MUSHROOM_SHELF_UNDERGROUND;
+    public static final ModConfigSpec.BooleanValue GENERATE_HANGING_MOSS;
+    public static final ModConfigSpec.BooleanValue GENERATE_TREE_ROOTS;
+    public static final ModConfigSpec.BooleanValue GENERATE_TREE_BRANCHES;
+    public static final ModConfigSpec.DoubleValue FALLEN_LEAVES_CHANCE;
+    public static final ModConfigSpec.BooleanValue GENERATE_DARK_OAK_HUMUS;
 
     static {
-        ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder COMMON_BUILDER = new ModConfigSpec.Builder();
         
         COMMON_BUILDER.push("World Generation Settings");
         GENERATE_BOULDER = COMMON_BUILDER.comment("Generate boulder").define("generateBoulder", true);

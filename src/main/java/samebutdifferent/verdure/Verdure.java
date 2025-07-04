@@ -1,42 +1,35 @@
 package samebutdifferent.verdure;
 
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import samebutdifferent.verdure.registry.*;
 
 @Mod(Verdure.MOD_ID)
 public class Verdure {
+
     public static final String MOD_ID = "verdure";
-    public static final Logger LOGGER = LogManager.getLogger();
-    public static final CreativeModeTab TAB = new CreativeModeTab(MOD_ID) {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(VerdureBlocks.CLOVER.get().asItem());
-        }
-    };
 
-    public Verdure() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+    public Verdure(IEventBus bus, ModContainer container) {
+        container.registerConfig(ModConfig.Type.COMMON, VerdureConfig.COMMON_CONFIG);
+        NeoForge.EVENT_BUS.register(this);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, VerdureConfig.COMMON_CONFIG);
-
-        VerdureBlocks.BLOCKS.register(bus);
         VerdureItems.ITEMS.register(bus);
-        VerdureBlockEntityTypes.BLOCK_ENTITY_TYPES.register(bus);
+        VerdureBlocks.BLOCKS.register(bus);
         VerdureFeatures.FEATURES.register(bus);
+        VerdurePlacedFeatures.PLACED_FEATURES.register(bus);
+        VerdureCreativeModeTabs.CREATIVE_MODE_TABS.register(bus);
+        VerdureBlockEntityTypes.BLOCK_ENTITY_TYPES.register(bus);
         VerdureTreeDecoratorTypes.TREE_DECORATOR_TYPES.register(bus);
         VerdureConfiguredFeatures.CONFIGURED_FEATURES.register(bus);
-        VerdurePlacedFeatures.PLACED_FEATURES.register(bus);
-
-        MinecraftForge.EVENT_BUS.register(this);
     }
+
+    @SubscribeEvent
+    public void onServerStarted(ServerStartedEvent event) {
+    }
+
 }

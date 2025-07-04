@@ -3,6 +3,7 @@ package samebutdifferent.verdure.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -48,25 +49,21 @@ public class HangingMossBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public BlockBehaviour.OffsetType getOffsetType() {
-        return BlockBehaviour.OffsetType.XZ;
-    }
-
-    @Override
-    public boolean isValidBonemealTarget(BlockGetter pLevel, BlockPos pPos, BlockState pState, boolean pIsClient) {
+    public boolean isValidBonemealTarget(LevelReader pLevel, BlockPos pPos, BlockState pState) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level pLevel, Random pRandom, BlockPos pPos, BlockState pState) {
+    public boolean isBonemealSuccess(Level pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel pLevel, Random pRandom, BlockPos pPos, BlockState pState) {
+    public void performBonemeal(ServerLevel pLevel, RandomSource pRandom, BlockPos pPos, BlockState pState) {
         TallHangingMossBlock block = (TallHangingMossBlock) VerdureBlocks.TALL_HANGING_MOSS.get();
         if (block.defaultBlockState().canSurvive(pLevel, pPos) && pLevel.isEmptyBlock(pPos.below())) {
             TallHangingMossBlock.placeAt(pLevel, block.defaultBlockState(), pPos, 2);
         }
     }
+
 }

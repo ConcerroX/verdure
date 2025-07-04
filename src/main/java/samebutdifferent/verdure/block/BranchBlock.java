@@ -1,13 +1,17 @@
 package samebutdifferent.verdure.block;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -30,13 +34,14 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+
     private final Block log;
     private final Block fallenLeaves;
     protected static final VoxelShape X_AXIS_AABB = Block.box(0.0D, 0.0D, 7.0D, 16.0D, 16.0D, 9.0D);
@@ -48,34 +53,38 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
         super(properties);
         this.log = log;
         this.fallenLeaves = fallenLeaves;
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false).setValue(LEAVES, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH)
+            .setValue(WATERLOGGED, false).setValue(LEAVES, false));
     }
 
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public VoxelShape getShape(BlockState pState, BlockGetter level, BlockPos pos, CollisionContext pContext) {
         return pState.getValue(FACING).getAxis() == Direction.Axis.X ? X_AXIS_AABB : Z_AXIS_AABB;
     }
 
-    private boolean canAttachTo(BlockGetter pBlockReader, BlockPos pPos) {
-        return pBlockReader.getBlockState(pPos).is(log);
+    private boolean canAttachTo(BlockGetter pBlockReader, BlockPos pos) {
+        return pBlockReader.getBlockState(pos).is(log);
     }
 
     @Override
-    public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
+    public boolean canSurvive(BlockState pState, LevelReader level, BlockPos pos) {
         Direction direction = pState.getValue(FACING);
-        return this.canAttachTo(pLevel, pPos.relative(direction.getOpposite()));
+        return this.canAttachTo(level, pos.relative(direction.getOpposite()));
     }
 
     @Override
-    public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-        if (pFacing.getOpposite() == pState.getValue(FACING) && !pState.canSurvive(pLevel, pCurrentPos)) {
+    public @NotNull BlockState updateShape(
+        BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor level,
+        @NotNull BlockPos pCurrentPos, @NotNull BlockPos pFacingPos
+    ) {
+        if (pFacing.getOpposite() == pState.getValue(FACING) && !pState.canSurvive(level, pCurrentPos)) {
             return Blocks.AIR.defaultBlockState();
         } else {
             if (pState.getValue(WATERLOGGED)) {
-                pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
+                level.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
             }
 
-            return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+            return super.updateShape(pState, pFacing, pFacingState, level, pCurrentPos, pFacingPos);
         }
     }
 
@@ -83,7 +92,8 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         if (!pContext.replacingClickedOnBlock()) {
-            BlockState state = pContext.getLevel().getBlockState(pContext.getClickedPos().relative(pContext.getClickedFace().getOpposite()));
+            BlockState state = pContext.getLevel()
+                .getBlockState(pContext.getClickedPos().relative(pContext.getClickedFace().getOpposite()));
             if (state.is(this) && state.getValue(FACING) == pContext.getClickedFace()) {
                 return null;
             }
@@ -94,7 +104,7 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
         BlockPos pos = pContext.getClickedPos();
         FluidState fluidState = pContext.getLevel().getFluidState(pContext.getClickedPos());
 
-        for(Direction direction : pContext.getNearestLookingDirections()) {
+        for (Direction direction : pContext.getNearestLookingDirections()) {
             if (direction.getAxis().isHorizontal()) {
                 defaultBlockState = defaultBlockState.setValue(FACING, direction.getOpposite());
                 if (defaultBlockState.canSurvive(level, pos)) {
@@ -112,7 +122,7 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
     }
 
     @Override
-    public FluidState getFluidState(BlockState pState) {
+    public @NotNull FluidState getFluidState(BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(pState);
     }
 
@@ -122,54 +132,82 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
     }
 
     @Override
-    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
-        if (pRandom.nextInt(5) == 0) {
-            pLevel.setBlock(pPos, pState.setValue(LEAVES, true), 2);
+    protected void randomTick(
+        @NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
+        RandomSource random
+    ) {
+        if (random.nextInt(5) == 0) {
+            level.setBlock(pos, state.setValue(LEAVES, true), 2);
         }
     }
 
-    @Nullable
     @Override
-    public BlockState getToolModifiedState(BlockState state, UseOnContext context, ToolAction toolAction, boolean simulate) {
-        if (toolAction.equals(ToolActions.SHEARS_HARVEST) && state.getValue(LEAVES) && context.getItemInHand().canPerformAction(ToolActions.SHEARS_HARVEST)) {
+    public @Nullable BlockState getToolModifiedState(
+        @NotNull BlockState state, @NotNull UseOnContext context,
+        @NotNull ItemAbility itemAbility, boolean simulate
+    ) {
+        if (itemAbility.equals(ItemAbilities.SHEARS_HARVEST) && state.getValue(LEAVES) && context.getItemInHand()
+            .canPerformAction(ItemAbilities.SHEARS_HARVEST)) {
             return state.setValue(LEAVES, false);
         }
-        return super.getToolModifiedState(state, context, toolAction, simulate);
+        return super.getToolModifiedState(state, context, itemAbility, simulate);
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        ItemStack stack = pPlayer.getItemInHand(pHand);
+    protected @NotNull ItemInteractionResult useItemOn(
+        @NotNull ItemStack stack, BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player,
+        @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult
+    ) {
         boolean canShear = false;
-        if (pState.getValue(LEAVES)) {
-            if (stack.canPerformAction(ToolActions.SHEARS_HARVEST)) {
-                pLevel.playSound(pPlayer, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.SHEEP_SHEAR, SoundSource.NEUTRAL, 1.0F, 1.0F);
-                popResource(pLevel, pPos, new ItemStack(fallenLeaves));
-                stack.hurtAndBreak(1, pPlayer, (player) -> player.broadcastBreakEvent(pHand));
+        if (state.getValue(LEAVES)) {
+            if (stack.canPerformAction(ItemAbilities.SHEARS_HARVEST)) {
+                level.playSound(
+                    player,
+                    player.getX(),
+                    player.getY(),
+                    player.getZ(),
+                    SoundEvents.SHEEP_SHEAR,
+                    SoundSource.NEUTRAL,
+                    1.0F,
+                    1.0F
+                );
+                popResource(level, pos, new ItemStack(fallenLeaves));
+                stack.hurtAndBreak(1, player, player.getEquipmentSlotForItem(stack));
                 canShear = true;
-                pLevel.gameEvent(pPlayer, GameEvent.SHEAR, pPos);
+                level.gameEvent(player, GameEvent.SHEAR, pos);
             }
-
-            if (!pLevel.isClientSide() && canShear) {
-                pPlayer.awardStat(Stats.ITEM_USED.get(stack.getItem()));
+            if (!level.isClientSide() && canShear) {
+                player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             }
         }
 
         if (canShear) {
-            pLevel.setBlockAndUpdate(pPos, pState.setValue(LEAVES, false));
-            return InteractionResult.sidedSuccess(pLevel.isClientSide);
+            level.setBlockAndUpdate(pos, state.setValue(LEAVES, false));
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         } else {
-            return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
+            return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
         }
     }
 
     @Override
-    public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    public boolean isFlammable(@NotNull BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
         return true;
     }
 
     @Override
-    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+    public int getFlammability(
+        @NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
+        @NotNull Direction direction
+    ) {
         return 100;
+    }
+
+    @Override
+    protected @NotNull MapCodec<? extends BranchBlock> codec() {
+        return RecordCodecBuilder.mapCodec(instance -> instance.group(
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("log").forGetter((it) -> log),
+            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("fallenLeaves").forGetter((it) -> fallenLeaves),
+            Properties.CODEC.fieldOf("properties").forGetter((it) -> properties)
+        ).apply(instance, BranchBlock::new));
     }
 }

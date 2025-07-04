@@ -1,7 +1,9 @@
 package samebutdifferent.verdure.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -14,18 +16,24 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import samebutdifferent.verdure.block.entity.HollowLogBlockEntity;
 
 public class HollowLogBlock extends BaseEntityBlock {
+
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public HollowLogBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
+        return simpleCodec(HollowLogBlock::new);
     }
 
     @Nullable
@@ -35,10 +43,13 @@ public class HollowLogBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
+    public void setPlacedBy(
+        Level pLevel, @NotNull BlockPos pPos, @NotNull BlockState pState, @Nullable LivingEntity pPlacer,
+        ItemStack pStack
+    ) {
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-        if (pStack.hasCustomHoverName() && blockEntity instanceof BaseContainerBlockEntity) {
-            ((BaseContainerBlockEntity) blockEntity).setCustomName(pStack.getHoverName());
+        if (pStack.has(DataComponents.CUSTOM_NAME) && blockEntity instanceof BaseContainerBlockEntity) {
+            blockEntity.applyComponentsFromItemStack(pStack);
         }
     }
 
@@ -56,14 +67,17 @@ public class HollowLogBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide) {
-            MenuProvider provider = pState.getMenuProvider(pLevel, pPos);
+    protected @NotNull ItemInteractionResult useItemOn(
+        @NotNull ItemStack stack, @NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player,
+        @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult
+    ) {
+        if (!level.isClientSide) {
+            MenuProvider provider = state.getMenuProvider(level, pos);
             if (provider != null) {
-                pPlayer.openMenu(provider);
+                player.openMenu(provider);
             }
         }
-        return InteractionResult.SUCCESS;
+        return ItemInteractionResult.SUCCESS;
     }
 
     @Nullable

@@ -1,23 +1,25 @@
 package samebutdifferent.verdure.worldgen.treedecorator;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
+import org.jetbrains.annotations.NotNull;
 import samebutdifferent.verdure.registry.VerdureConfig;
 import samebutdifferent.verdure.registry.VerdureTreeDecoratorTypes;
 
 import java.util.List;
-import java.util.Random;
-import java.util.function.BiConsumer;
 
 public class FallenLeavesDecorator extends TreeDecorator {
-    public static final Codec<FallenLeavesDecorator> CODEC = BlockState.CODEC.fieldOf("fallen_leaves").xmap(FallenLeavesDecorator::new, (decorator) -> decorator.state).codec();
+
+    public static final MapCodec<FallenLeavesDecorator> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+        BlockState.CODEC.fieldOf("state").forGetter((it) -> it.state)).apply(instance, FallenLeavesDecorator::new));
     private final BlockState state;
 
     public FallenLeavesDecorator(BlockState state) {
@@ -25,26 +27,28 @@ public class FallenLeavesDecorator extends TreeDecorator {
     }
 
     @Override
-    protected TreeDecoratorType<?> type() {
+    protected @NotNull TreeDecoratorType<?> type() {
         return VerdureTreeDecoratorTypes.FALLEN_LEAVES.get();
     }
 
     @Override
-    public void place(LevelSimulatedReader pLevel, BiConsumer<BlockPos, BlockState> pBlockSetter, Random pRandom, List<BlockPos> pLogPositions, List<BlockPos> pLeafPositions) {
-        if (!pLeafPositions.isEmpty() && pRandom.nextFloat() <= VerdureConfig.FALLEN_LEAVES_CHANCE.get()) {
-            List<BlockPos> lowestLeafPositions = pLeafPositions.stream().filter(blockPos -> blockPos.getY() == pLeafPositions.get(0).getY()).toList();
+    public void place(Context context) {
+        if (!context.leaves().isEmpty() && context.random().nextFloat() <= VerdureConfig.FALLEN_LEAVES_CHANCE.get()) {
+            List<BlockPos> lowestLeafPositions = context.leaves().stream()
+                .filter(blockPos -> blockPos.getY() == context.leaves().getFirst().getY()).toList();
             for (BlockPos pos : lowestLeafPositions) {
-                BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
+                var mutable = new BlockPos.MutableBlockPos();
                 mutable.set(pos.below());
-                while (pLevel.isStateAtPosition(mutable.below(), blockState -> !blockState.getMaterial().isSolid())) {
+                while (context.level().isStateAtPosition(mutable.below(), blockState -> !blockState.isSolid())) {
                     mutable.move(Direction.DOWN);
                 }
-                if (Feature.isAir(pLevel, mutable)) {
-                    if (pRandom.nextBoolean()) {
-                        pBlockSetter.accept(mutable, state);
+                if (context.level().isStateAtPosition(mutable, BlockBehaviour.BlockStateBase::isAir)) {
+                    if (context.random().nextBoolean()) {
+                        context.setBlock(mutable, state);
                     }
                 }
             }
         }
     }
+
 }

@@ -1,20 +1,31 @@
 package samebutdifferent.verdure.data;
 
-import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import org.jetbrains.annotations.NotNull;
 import samebutdifferent.verdure.registry.VerdureBlocks;
 
-public class ModBlockLoot extends BlockLoot {
+import java.util.Set;
+
+public class ModBlockLoot extends BlockLootSubProvider {
+
+    public ModBlockLoot(HolderLookup.Provider lookupProvider) {
+        super(Set.of(), FeatureFlags.DEFAULT_FLAGS, lookupProvider);
+    }
+
     @Override
-    protected void addTables() {
-        for (RegistryObject<Block> block : VerdureBlocks.BLOCKS.getEntries()) {
+    protected void generate() {
+        for (DeferredHolder<Block, ? extends Block> block : VerdureBlocks.BLOCKS.getEntries()) {
             dropSelf(block.get());
         }
     }
 
     @Override
-    protected Iterable<Block> getKnownBlocks() {
-        return VerdureBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get)::iterator;
+    protected @NotNull Iterable<Block> getKnownBlocks() {
+        return VerdureBlocks.BLOCKS.getEntries().stream().map(e -> (Block) e.value())::iterator;
     }
+
 }

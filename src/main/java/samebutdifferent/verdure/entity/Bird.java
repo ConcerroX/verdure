@@ -24,7 +24,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,8 +41,8 @@ public class Bird extends Animal implements FlyingAnimal {
     public Bird(EntityType<? extends Animal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new FlyingMoveControl(this, 10, false);
-        this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1.0F);
+        this.setPathfindingMalus(PathType.DANGER_FIRE, -1.0F);
+        this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
     }
 
     @Override
@@ -72,11 +72,6 @@ public class Bird extends Animal implements FlyingAnimal {
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose pPose, EntityDimensions pSize) {
-        return pSize.height * 0.6F;
-    }
-
-    @Override
     public void aiStep() {
         super.aiStep();
         this.calculateFlapping();
@@ -85,15 +80,15 @@ public class Bird extends Animal implements FlyingAnimal {
     private void calculateFlapping() {
         this.oFlap = this.flap;
         this.oFlapSpeed = this.flapSpeed;
-        this.flapSpeed += (float)(!this.onGround && !this.isPassenger() ? 4 : -1) * 0.3F;
+        this.flapSpeed += (float)(!this.onGround() && !this.isPassenger() ? 4 : -1) * 0.3F;
         this.flapSpeed = Mth.clamp(this.flapSpeed, 0.0F, 1.0F);
-        if (!this.onGround && this.flapping < 1.0F) {
+        if (!this.onGround() && this.flapping < 1.0F) {
             this.flapping = 1.0F;
         }
 
         this.flapping *= 0.9F;
         Vec3 vec3 = this.getDeltaMovement();
-        if (!this.onGround && vec3.y < 0.0D) {
+        if (!this.onGround() && vec3.y < 0.0D) {
             this.setDeltaMovement(vec3.multiply(1.0D, 0.6D, 1.0D));
         }
 
@@ -174,7 +169,7 @@ public class Bird extends Animal implements FlyingAnimal {
 
     @Override
     public boolean isFlying() {
-        return !this.onGround;
+        return !this.onGround();
     }
 
     @Override
@@ -210,9 +205,9 @@ public class Bird extends Animal implements FlyingAnimal {
 
             for(BlockPos pos : BlockPos.betweenClosed(Mth.floor(this.mob.getX() - 3.0D), Mth.floor(this.mob.getY() - 6.0D), Mth.floor(this.mob.getZ() - 3.0D), Mth.floor(this.mob.getX() + 3.0D), Mth.floor(this.mob.getY() + 6.0D), Mth.floor(this.mob.getZ() + 3.0D))) {
                 if (!mobPos.equals(pos)) {
-                    BlockState blockstate = this.mob.level.getBlockState(mutable2.setWithOffset(pos, Direction.DOWN));
+                    BlockState blockstate = this.mob.level().getBlockState(mutable2.setWithOffset(pos, Direction.DOWN));
                     boolean isLeavesOrLogs = blockstate.getBlock() instanceof LeavesBlock || blockstate.is(BlockTags.LOGS);
-                    if (isLeavesOrLogs && this.mob.level.isEmptyBlock(pos) && this.mob.level.isEmptyBlock(mutable1.setWithOffset(pos, Direction.UP))) {
+                    if (isLeavesOrLogs && this.mob.level().isEmptyBlock(pos) && this.mob.level().isEmptyBlock(mutable1.setWithOffset(pos, Direction.UP))) {
                         return Vec3.atBottomCenterOf(pos);
                     }
                 }

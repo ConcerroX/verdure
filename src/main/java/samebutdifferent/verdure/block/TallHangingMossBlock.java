@@ -77,7 +77,7 @@ public class TallHangingMossBlock extends Block {
     }
 
     @Override
-    public void playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
+    public BlockState playerWillDestroy(Level pLevel, BlockPos pPos, BlockState pState, Player pPlayer) {
         if (!pLevel.isClientSide) {
             if (pPlayer.isCreative()) {
                 preventCreativeDropFromBottomPart(pLevel, pPos, pState, pPlayer);
@@ -85,8 +85,7 @@ public class TallHangingMossBlock extends Block {
                 dropResources(pState, pLevel, pPos, null, pPlayer, pPlayer.getMainHandItem());
             }
         }
-
-        super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
+        return super.playerWillDestroy(pLevel, pPos, pState, pPlayer);
     }
 
     @Override
@@ -110,11 +109,6 @@ public class TallHangingMossBlock extends Block {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(HALF);
-    }
-
-    @Override
-    public BlockBehaviour.OffsetType getOffsetType() {
-        return BlockBehaviour.OffsetType.XZ;
     }
 
     @Override

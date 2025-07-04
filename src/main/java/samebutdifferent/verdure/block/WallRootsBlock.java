@@ -1,5 +1,6 @@
 package samebutdifferent.verdure.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -31,6 +32,11 @@ public class WallRootsBlock extends HorizontalDirectionalBlock implements Simple
     public WallRootsBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return simpleCodec(WallRootsBlock::new);
     }
 
     @Override
