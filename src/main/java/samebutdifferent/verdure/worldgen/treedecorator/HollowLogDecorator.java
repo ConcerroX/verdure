@@ -24,7 +24,6 @@ public class HollowLogDecorator extends TreeDecorator {
     public void place(Context context) {
         BlockPos pos = context.logs().get(2);
         Direction direction = Direction.from2DDataValue(context.random().nextInt(4));
-
         context.setBlock(pos, VerdureBlocks.HOLLOW_LOG.get().defaultBlockState().setValue(HollowLogBlock.FACING, direction));
         // TODO: fix
         //        RandomizableContainerBlockEntity.setLootTable((BlockGetter) pLevel, pRandom, pos, new ResourceLocation(Verdure.MOD_ID, "chests/hollow_log"));

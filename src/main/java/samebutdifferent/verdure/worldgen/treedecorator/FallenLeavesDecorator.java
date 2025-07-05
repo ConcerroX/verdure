@@ -15,15 +15,21 @@ import samebutdifferent.verdure.registry.VerdureConfig;
 import samebutdifferent.verdure.registry.VerdureTreeDecoratorTypes;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class FallenLeavesDecorator extends TreeDecorator {
 
     public static final MapCodec<FallenLeavesDecorator> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         BlockState.CODEC.fieldOf("state").forGetter((it) -> it.state)).apply(instance, FallenLeavesDecorator::new));
-    private final BlockState state;
+    private BlockState state = null;
+    private Supplier<BlockState> lazyState = null;
 
     public FallenLeavesDecorator(BlockState state) {
         this.state = state;
+    }
+
+    public FallenLeavesDecorator(Supplier<BlockState> state) {
+        this.lazyState = state;
     }
 
     @Override
@@ -33,6 +39,7 @@ public class FallenLeavesDecorator extends TreeDecorator {
 
     @Override
     public void place(Context context) {
+        state = lazyState != null ? lazyState.get() : state;
         if (!context.leaves().isEmpty() && context.random().nextFloat() <= VerdureConfig.FALLEN_LEAVES_CHANCE.get()) {
             List<BlockPos> lowestLeafPositions = context.leaves().stream()
                 .filter(blockPos -> blockPos.getY() == context.leaves().getFirst().getY()).toList();

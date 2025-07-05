@@ -11,25 +11,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.WeightedPlacedFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.*;
-import net.minecraft.world.level.levelgen.feature.featuresize.ThreeLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.*;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.RuleBasedBlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-import net.minecraft.world.level.levelgen.feature.treedecorators.AlterGroundDecorator;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.DarkOakTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.ForkingTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import samebutdifferent.verdure.Verdure;
-import samebutdifferent.verdure.worldgen.treedecorator.BranchDecorator;
-import samebutdifferent.verdure.worldgen.treedecorator.DaisiesDecorator;
-import samebutdifferent.verdure.worldgen.treedecorator.FallenLeavesDecorator;
 import samebutdifferent.verdure.worldgen.treedecorator.HollowLogDecorator;
 
 import java.util.List;
@@ -73,98 +65,21 @@ public class VerdureConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_DAISIES_PINK = create("patch_daisies_pink");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PATCH_WILDFLOWERS = create("patch_wildflowers");
 
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> FALLEN_LOG = CONFIGURED_FEATURES.register(
-        "fallen_log", () -> new ConfiguredFeature<>(VerdureFeatures.FALLEN_LOG.get(), FeatureConfiguration.NONE));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> MUSHROOM_SHELF = CONFIGURED_FEATURES.register(
-        "mushroom_shelf",
-        () -> new ConfiguredFeature<>(VerdureFeatures.MUSHROOM_SHELF.get(), FeatureConfiguration.NONE));
-    //    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> TREES_BIRCH_AND_OAK = CONFIGURED_FEATURES.register(
-    //        "trees_birch_and_oak", () -> new ConfiguredFeature<>(
-    //            Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(
-    //            List.of(
-    //                new WeightedPlacedFeature(VerdurePlacedFeatures.BIRCH_CHECKED, 0.2F),
-    //                new WeightedPlacedFeature(TreePlacements.FANCY_OAK_BEES_0002, 0.1F)
-    //            ), VerdurePlacedFeatures.OAK_CHECKED
-    //        )
-    //        )
-    //    );
-    //    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> DARK_FOREST_VEGETATION = CONFIGURED_FEATURES.register(
-    //        "dark_forest_vegetation", () -> new ConfiguredFeature<>(
-    //            Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(
-    //            List.of(
-    //                new WeightedPlacedFeature(PlacementUtils.inlinePlaced(TreeFeatures.HUGE_BROWN_MUSHROOM), 0.025F),
-    //                new WeightedPlacedFeature(PlacementUtils.inlinePlaced(TreeFeatures.HUGE_RED_MUSHROOM), 0.05F),
-    //                new WeightedPlacedFeature(VerdurePlacedFeatures.DARK_OAK_CHECKED, 0.6666667F),
-    //                new WeightedPlacedFeature(VerdurePlacedFeatures.BIRCH_CHECKED, 0.2F),
-    //                new WeightedPlacedFeature(TreePlacements.FANCY_OAK_CHECKED, 0.1F)
-    //            ), VerdurePlacedFeatures.OAK_CHECKED
-    //        )
-    //        )
-    //    );
-
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> TREES_TAIGA = CONFIGURED_FEATURES.register(
-        "trees_taiga", () -> new ConfiguredFeature<>(Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(
-            List.of(new WeightedPlacedFeature(VerdurePlacedFeatures.PINE_CHECKED, 0.33333334F)),
-            VerdurePlacedFeatures.SPRUCE_CHECKED)));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> TREES_SAVANNA = CONFIGURED_FEATURES.register(
-        "trees_savanna", () -> new ConfiguredFeature<>(Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(
-            List.of(new WeightedPlacedFeature(VerdurePlacedFeatures.ACACIA_CHECKED, 0.8F)),
-            VerdurePlacedFeatures.OAK_CHECKED)));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> BIRCH_TALL = CONFIGURED_FEATURES.register(
-        "birch_tall", () -> new ConfiguredFeature<>(Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(
-            List.of(new WeightedPlacedFeature(VerdurePlacedFeatures.SUPER_BIRCH_CHECKED, 0.5F)),
-            VerdurePlacedFeatures.BIRCH_CHECKED)));
-    //    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> TREES_JUNGLE = CONFIGURED_FEATURES.register(
-    //        "trees_jungle", () -> new ConfiguredFeature<>(
-    //            Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(
-    //            List.of(
-    //                new WeightedPlacedFeature(TreePlacements.FANCY_OAK_CHECKED, 0.1F),
-    //                new WeightedPlacedFeature(TreePlacements.JUNGLE_BUSH, 0.5F),
-    //                new WeightedPlacedFeature(TreePlacements.MEGA_JUNGLE_TREE_CHECKED, 0.33333334F)
-    //            ), VerdurePlacedFeatures.JUNGLE_TREE_CHECKED
-    //        )
-    //        )
-    //    );
-    //    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> TREES_SPARSE_JUNGLE = CONFIGURED_FEATURES.register(
-    //        "trees_sparse_jungle", () -> new ConfiguredFeature<>(
-    //            Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(
-    //            List.of(
-    //                new WeightedPlacedFeature(TreePlacements.FANCY_OAK_CHECKED, 0.1F),
-    //                new WeightedPlacedFeature(TreePlacements.JUNGLE_BUSH, 0.5F)
-    //            ), VerdurePlacedFeatures.JUNGLE_TREE_CHECKED
-    //        )
-    //        )
-    //    );
-    //    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> TREES_FLOWER_FOREST = CONFIGURED_FEATURES.register(
-    //        "trees_flower_forest", () -> new ConfiguredFeature<>(
-    //            Feature.RANDOM_SELECTOR, new RandomFeatureConfiguration(
-    //            List.of(
-    //                new WeightedPlacedFeature(VerdurePlacedFeatures.BIRCH_CHECKED, 0.2F),
-    //                new WeightedPlacedFeature(TreePlacements.FANCY_OAK_BEES_002, 0.1F)
-    //            ), VerdurePlacedFeatures.OAK_CHECKED
-    //        )
-    //        )
-    //    );
-
     // CAVE FEATURES
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> UNDERGROUND_MUSHROOM_SHELF = CONFIGURED_FEATURES.register(
-        "underground_mushroom_shelf",
-        () -> new ConfiguredFeature<>(VerdureFeatures.UNDERGROUND_MUSHROOM_SHELF.get(), FeatureConfiguration.NONE));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> HANGING_MOSS = CONFIGURED_FEATURES.register(
-        "hanging_moss", () -> new ConfiguredFeature<>(VerdureFeatures.HANGING_MOSS.get(), new SimpleBlockConfiguration(
-            new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
-                .add(VerdureBlocks.HANGING_MOSS.get().defaultBlockState(), 1)
-                .add(VerdureBlocks.TALL_HANGING_MOSS.get().defaultBlockState(), 1)))));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MUSHROOM_SHELF = create("mushroom_shelf");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> UNDERGROUND_MUSHROOM_SHELF = create("underground_mushroom_shelf");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> HANGING_MOSS = create("hanging_moss");
 
     // TREE FEATURES
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> OAK_DAISIES = CONFIGURED_FEATURES.register(
-        "oak_daisies", () -> new ConfiguredFeature<>(Feature.TREE,
-            createStraightBlobTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 4, 2, 0, 2).ignoreVines()
-                .decorators(List.of(new DaisiesDecorator())).build()));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> BIRCH_DAISIES = CONFIGURED_FEATURES.register(
-        "birch_daisies", () -> new ConfiguredFeature<>(Feature.TREE,
-            createStraightBlobTree(Blocks.BIRCH_LOG, Blocks.BIRCH_LEAVES, 5, 2, 0, 2).ignoreVines()
-                .decorators(List.of(new DaisiesDecorator())).build()));
+//    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> OAK_DAISIES = CONFIGURED_FEATURES.register(
+//        "oak_daisies", () -> new ConfiguredFeature<>(Feature.TREE,
+//            createStraightBlobTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 4, 2, 0, 2).ignoreVines()
+//                .decorators(List.of(new DaisiesDecorator())).build()));
+//    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> BIRCH_DAISIES = CONFIGURED_FEATURES.register(
+//        "birch_daisies", () -> new ConfiguredFeature<>(Feature.TREE,
+//            createStraightBlobTree(Blocks.BIRCH_LOG, Blocks.BIRCH_LEAVES, 5, 2, 0, 2).ignoreVines()
+//                .decorators(List.of(new DaisiesDecorator())).build()));
+
     public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> OAK_HOLLOW = CONFIGURED_FEATURES.register(
         "oak_hollow", () -> new ConfiguredFeature<>(Feature.TREE,
             createStraightBlobTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 5, 1, 0, 2).ignoreVines()
@@ -176,79 +91,6 @@ public class VerdureConfiguredFeatures {
                 new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
                 new TwoLayersFeatureSize(0, 0, 0, OptionalInt.of(4))).ignoreVines()
                 .decorators(List.of(new HollowLogDecorator())).build()));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> OAK = CONFIGURED_FEATURES.register(
-        "oak", () -> new ConfiguredFeature<>(Feature.TREE,
-            createStraightBlobTree(Blocks.OAK_LOG, Blocks.OAK_LEAVES, 4, 2, 0, 2).ignoreVines().decorators(
-                List.of(new BranchDecorator(VerdureBlocks.OAK_BRANCH.get().defaultBlockState()),
-                    new FallenLeavesDecorator(VerdureBlocks.FALLEN_OAK_LEAVES.get().defaultBlockState()))).build()));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> BIRCH = CONFIGURED_FEATURES.register(
-        "birch", () -> new ConfiguredFeature<>(Feature.TREE,
-            createStraightBlobTree(Blocks.BIRCH_LOG, Blocks.BIRCH_LEAVES, 5, 2, 0, 2).ignoreVines().decorators(
-                List.of(new BranchDecorator(VerdureBlocks.BIRCH_BRANCH.get().defaultBlockState()),
-                    new FallenLeavesDecorator(VerdureBlocks.FALLEN_BIRCH_LEAVES.get().defaultBlockState()))).build()));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> SUPER_BIRCH = CONFIGURED_FEATURES.register(
-        "super_birch", () -> new ConfiguredFeature<>(Feature.TREE,
-            createStraightBlobTree(Blocks.BIRCH_LOG, Blocks.BIRCH_LEAVES, 5, 2, 6, 2).ignoreVines().decorators(
-                List.of(new BranchDecorator(VerdureBlocks.BIRCH_BRANCH.get().defaultBlockState()),
-                    new FallenLeavesDecorator(VerdureBlocks.FALLEN_BIRCH_LEAVES.get().defaultBlockState()))).build()));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> DARK_OAK = CONFIGURED_FEATURES.register(
-        "dark_oak", () -> new ConfiguredFeature<>(Feature.TREE,
-            new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(Blocks.DARK_OAK_LOG),
-                new DarkOakTrunkPlacer(6, 2, 1), BlockStateProvider.simple(Blocks.DARK_OAK_LEAVES),
-                new DarkOakFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0)),
-                new ThreeLayersFeatureSize(1, 1, 0, 1, 2, OptionalInt.empty())).ignoreVines().decorators(
-                List.of(new FallenLeavesDecorator(VerdureBlocks.FALLEN_DARK_OAK_LEAVES.get().defaultBlockState()),
-                    new AlterGroundDecorator(BlockStateProvider.simple(VerdureBlocks.HUMUS.get())))).build()));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> DARK_OAK_NO_LEAVES = CONFIGURED_FEATURES.register(
-        "dark_oak_no_leaves", () -> new ConfiguredFeature<>(Feature.TREE,
-            new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(Blocks.DARK_OAK_LOG),
-                new DarkOakTrunkPlacer(6, 2, 1), BlockStateProvider.simple(Blocks.DARK_OAK_LEAVES),
-                new DarkOakFoliagePlacer(ConstantInt.of(0), ConstantInt.of(0)),
-                new ThreeLayersFeatureSize(1, 1, 0, 1, 2, OptionalInt.empty())).ignoreVines().decorators(
-                List.of(new FallenLeavesDecorator(VerdureBlocks.FALLEN_DARK_OAK_LEAVES.get().defaultBlockState()),
-                    new AlterGroundDecorator(BlockStateProvider.simple(VerdureBlocks.HUMUS.get())))).build()));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> SPRUCE = CONFIGURED_FEATURES.register(
-        "spruce", () -> new ConfiguredFeature<>(Feature.TREE,
-            new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(Blocks.SPRUCE_LOG),
-                new StraightTrunkPlacer(5, 2, 1), BlockStateProvider.simple(Blocks.SPRUCE_LEAVES),
-                new SpruceFoliagePlacer(UniformInt.of(2, 3), UniformInt.of(0, 2), UniformInt.of(1, 2)),
-                new TwoLayersFeatureSize(2, 0, 2)).ignoreVines().decorators(
-                    List.of(new FallenLeavesDecorator(VerdureBlocks.FALLEN_SPRUCE_LEAVES.get().defaultBlockState())))
-                .build()));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> PINE = CONFIGURED_FEATURES.register(
-        "pine", () -> new ConfiguredFeature<>(Feature.TREE,
-            new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(Blocks.SPRUCE_LOG),
-                new StraightTrunkPlacer(6, 4, 0), BlockStateProvider.simple(Blocks.SPRUCE_LEAVES),
-                new PineFoliagePlacer(ConstantInt.of(1), ConstantInt.of(1), UniformInt.of(3, 4)),
-                new TwoLayersFeatureSize(2, 0, 2)).ignoreVines().decorators(
-                    List.of(new FallenLeavesDecorator(VerdureBlocks.FALLEN_SPRUCE_LEAVES.get().defaultBlockState())))
-                .build()));
-    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> ACACIA = CONFIGURED_FEATURES.register(
-        "acacia", () -> new ConfiguredFeature<>(Feature.TREE,
-            new TreeConfiguration.TreeConfigurationBuilder(BlockStateProvider.simple(Blocks.ACACIA_LOG),
-                new ForkingTrunkPlacer(5, 2, 2), BlockStateProvider.simple(Blocks.ACACIA_LEAVES),
-                new AcaciaFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0)),
-                new TwoLayersFeatureSize(1, 0, 2)).ignoreVines().decorators(
-                    List.of(new FallenLeavesDecorator(VerdureBlocks.FALLEN_ACACIA_LEAVES.get().defaultBlockState())))
-                .build()));
-    //    public static final DeferredHolder<ConfiguredFeature<?, ?>, ConfiguredFeature<?, ?>> JUNGLE_TREE = CONFIGURED_FEATURES.register(
-    //        "jungle_tree", () -> new ConfiguredFeature<>(
-    //            Feature.TREE,
-    //            createStraightBlobTree(
-    //                Blocks.JUNGLE_LOG,
-    //                Blocks.JUNGLE_LEAVES,
-    //                4,
-    //                8,
-    //                0,
-    //                2
-    //            ).decorators(ImmutableList.of(
-    //                new CocoaDecorator(0.2F),
-    //                TrunkVineDecorator.INSTANCE,
-    //                LeaveVineDecorator.INSTANCE,
-    //                new FallenLeavesDecorator(VerdureBlocks.FALLEN_JUNGLE_LEAVES.get().defaultBlockState())
-    //            )).ignoreVines().build()
-    //        )
-    //    );
 
     private static TreeConfiguration.TreeConfigurationBuilder createStraightBlobTree(Block logBlock, Block leavesBlock,
         int baseTrunkHeight, int heightRandA, int heightRandB, int foliageRadius
@@ -258,7 +100,6 @@ public class VerdureConfiguredFeatures {
             new BlobFoliagePlacer(ConstantInt.of(foliageRadius), ConstantInt.of(0), 3),
             new TwoLayersFeatureSize(1, 0, 1));
     }
-
 
     private static ResourceKey<ConfiguredFeature<?, ?>> create(String path) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, Verdure.res(path));

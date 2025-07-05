@@ -4,17 +4,22 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.MultifaceBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import org.jetbrains.annotations.NotNull;
 import samebutdifferent.verdure.registry.VerdureBlocks;
 import samebutdifferent.verdure.registry.VerdureConfiguredFeatures;
+import samebutdifferent.verdure.registry.VerdureFeatures;
 
 public class ConfiguredFeaturesProvider implements RegistrySetBuilder.RegistryBootstrap<ConfiguredFeature<?, ?>> {
 
@@ -59,6 +64,17 @@ public class ConfiguredFeaturesProvider implements RegistrySetBuilder.RegistryBo
                 new SimpleBlockConfiguration(BlockStateProvider.simple(
                     VerdureBlocks.WILDFLOWERS.get().defaultBlockState()
                         .setValue(MultifaceBlock.getFaceProperty(Direction.DOWN), true)))))));
+
+        // CAVE FEATURES
+        context.register(VerdureConfiguredFeatures.MUSHROOM_SHELF,
+            new ConfiguredFeature<>(VerdureFeatures.MUSHROOM_SHELF.get(), FeatureConfiguration.NONE));
+        context.register(VerdureConfiguredFeatures.UNDERGROUND_MUSHROOM_SHELF,
+            new ConfiguredFeature<>(VerdureFeatures.UNDERGROUND_MUSHROOM_SHELF.get(), FeatureConfiguration.NONE));
+        context.register(VerdureConfiguredFeatures.HANGING_MOSS,
+            new ConfiguredFeature<>(VerdureFeatures.HANGING_MOSS.get(), new SimpleBlockConfiguration(
+                new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
+                    .add(VerdureBlocks.HANGING_MOSS.get().defaultBlockState(), 1)
+                    .add(VerdureBlocks.TALL_HANGING_MOSS.get().defaultBlockState(), 1)))));
     }
 
 }

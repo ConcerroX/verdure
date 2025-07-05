@@ -55,6 +55,16 @@ public class BiomeModifiersProvider implements RegistrySetBuilder.RegistryBootst
         register("add_patch_wildflowers",
             new BiomeModifiers.AddFeaturesBiomeModifier(biomes.getOrThrow(VerdureTags.Biomes.HAS_PATCH_WILDFLOWERS),
                 features(VerdurePlacedFeatures.PATCH_WILDFLOWERS), GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        register("add_mushroom_shelves",
+            new BiomeModifiers.AddFeaturesBiomeModifier(biomes.getOrThrow(VerdureTags.Biomes.HAS_MUSHROOM_SHELVES),
+                features(VerdurePlacedFeatures.MUSHROOM_SHELF), GenerationStep.Decoration.VEGETAL_DECORATION));
+        register("add_underground_mushroom_shelves", new BiomeModifiers.AddFeaturesBiomeModifier(
+            biomes.getOrThrow(VerdureTags.Biomes.HAS_UNDERGROUND_MUSHROOM_SHELVES),
+            features(VerdurePlacedFeatures.UNDERGROUND_MUSHROOM_SHELF), GenerationStep.Decoration.VEGETAL_DECORATION));
+        register("add_hanging_moss",
+            new BiomeModifiers.AddFeaturesBiomeModifier(biomes.getOrThrow(VerdureTags.Biomes.HAS_HANGING_MOSS),
+                features(VerdurePlacedFeatures.HANGING_MOSS), GenerationStep.Decoration.VEGETAL_DECORATION));
     }
 
     private void register(String path, BiomeModifier modifier) {

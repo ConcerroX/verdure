@@ -32,11 +32,16 @@ public class BiomeTagsProvider extends net.minecraft.data.tags.BiomeTagsProvider
             BiomeTags.IS_JUNGLE, BiomeTags.IS_MOUNTAIN, BiomeTags.IS_RIVER, BiomeTags.IS_SAVANNA, BiomeTags.IS_TAIGA,
             Tags.Biomes.IS_PLAINS, Tags.Biomes.IS_SWAMP);
         tag(VerdureTags.Biomes.HAS_PATCH_CLOVER).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_JUNGLE, BiomeTags.IS_TAIGA,
-            Tags.Biomes.IS_PLAINS, Tags.Biomes.IS_SWAMP);
+            BiomeTags.IS_SAVANNA, Tags.Biomes.IS_PLAINS, Tags.Biomes.IS_SWAMP);
         tag(VerdureTags.Biomes.HAS_PATCH_DAISIES).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_JUNGLE, BiomeTags.IS_TAIGA,
             Tags.Biomes.IS_PLAINS, Tags.Biomes.IS_SWAMP);
         tag(VerdureTags.Biomes.HAS_PATCH_WILDFLOWERS).addTags(Tags.Biomes.IS_BIRCH_FOREST,
             Tags.Biomes.IS_FLOWER_FOREST);
+
+        tag(VerdureTags.Biomes.HAS_MUSHROOM_SHELVES).addTags(BiomeTags.IS_FOREST, BiomeTags.IS_TAIGA,
+            Tags.Biomes.IS_SWAMP);
+        tag(VerdureTags.Biomes.HAS_UNDERGROUND_MUSHROOM_SHELVES).addTags(BiomeTags.IS_OVERWORLD);
+        tag(VerdureTags.Biomes.HAS_HANGING_MOSS).addTags(Tags.Biomes.IS_LUSH);
     }
 
 }

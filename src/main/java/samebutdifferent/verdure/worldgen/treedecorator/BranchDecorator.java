@@ -14,16 +14,23 @@ import samebutdifferent.verdure.registry.VerdureConfig;
 import samebutdifferent.verdure.registry.VerdureTreeDecoratorTypes;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class BranchDecorator extends TreeDecorator {
 
-    public static final MapCodec<BranchDecorator> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        BlockState.CODEC.fieldOf("state").forGetter((it) -> it.state)).apply(instance, BranchDecorator::new));
+    public static final MapCodec<BranchDecorator> CODEC = RecordCodecBuilder.mapCodec(
+        instance -> instance.group(BlockState.CODEC.fieldOf("state").forGetter((it) -> it.state))
+            .apply(instance, BranchDecorator::new));
 
-    private final BlockState state;
+    private BlockState state = null;
+    private Supplier<BlockState> lazyState = null;
 
     public BranchDecorator(BlockState state) {
         this.state = state;
+    }
+
+    public BranchDecorator(Supplier<BlockState> state) {
+        this.lazyState = state;
     }
 
     @Override
@@ -33,6 +40,7 @@ public class BranchDecorator extends TreeDecorator {
 
     @Override
     public void place(@NotNull Context context) {
+        state = lazyState != null ? lazyState.get() : state;
         if (context.leaves().isEmpty() || !VerdureConfig.GENERATE_TREE_BRANCHES.get())
             return;
         int lowestLeafY = context.leaves().getFirst().getY();

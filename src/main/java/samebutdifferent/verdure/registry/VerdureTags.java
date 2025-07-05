@@ -21,6 +21,10 @@ public class VerdureTags {
         public static final TagKey<Biome> HAS_BOULDER_ANDESITE = create("has_boulder_andesite");
         public static final TagKey<Biome> HAS_BOULDER_SLATE = create("has_boulder_slate");
 
+        public static final TagKey<Biome> HAS_MUSHROOM_SHELVES = create("has_mushroom_shelves");
+        public static final TagKey<Biome> HAS_UNDERGROUND_MUSHROOM_SHELVES = create("has_underground_mushroom_shelves");
+        public static final TagKey<Biome> HAS_HANGING_MOSS = create("has_hanging_moss");
+
         private static TagKey<Biome> create(String path) {
             return TagKey.create(Registries.BIOME, Verdure.res(path));
         }
