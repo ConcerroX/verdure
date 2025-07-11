@@ -11,7 +11,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -34,8 +34,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -132,7 +132,7 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
     }
 
     @Override
-    protected void randomTick(
+    public void randomTick(
         @NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
         RandomSource random
     ) {
@@ -144,23 +144,24 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
     @Override
     public @Nullable BlockState getToolModifiedState(
         @NotNull BlockState state, @NotNull UseOnContext context,
-        @NotNull ItemAbility itemAbility, boolean simulate
+        @NotNull ToolAction toolAction, boolean simulate
     ) {
-        if (itemAbility.equals(ItemAbilities.SHEARS_HARVEST) && state.getValue(LEAVES) && context.getItemInHand()
-            .canPerformAction(ItemAbilities.SHEARS_HARVEST)) {
+        if (toolAction.equals(ToolActions.SHEARS_HARVEST) && state.getValue(LEAVES) && context.getItemInHand()
+            .canPerformAction(ToolActions.SHEARS_HARVEST)) {
             return state.setValue(LEAVES, false);
         }
-        return super.getToolModifiedState(state, context, itemAbility, simulate);
+        return super.getToolModifiedState(state, context, toolAction, simulate);
     }
 
     @Override
-    protected @NotNull ItemInteractionResult useItemOn(
-        @NotNull ItemStack stack, BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player,
+    public @NotNull InteractionResult use(
+        BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player,
         @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult
     ) {
+        var stack = player.getItemInHand(hand);
         boolean canShear = false;
         if (state.getValue(LEAVES)) {
-            if (stack.canPerformAction(ItemAbilities.SHEARS_HARVEST)) {
+            if (stack.canPerformAction(ToolActions.SHEARS_HARVEST)) {
                 level.playSound(
                     player,
                     player.getX(),
@@ -172,7 +173,7 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
                     1.0F
                 );
                 popResource(level, pos, new ItemStack(fallenLeaves));
-                stack.hurtAndBreak(1, player, player.getEquipmentSlotForItem(stack));
+                stack.hurtAndBreak(1, player, (p) -> player.broadcastBreakEvent(hand));
                 canShear = true;
                 level.gameEvent(player, GameEvent.SHEAR, pos);
             }
@@ -183,9 +184,9 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
 
         if (canShear) {
             level.setBlockAndUpdate(pos, state.setValue(LEAVES, false));
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
-            return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+            return super.use(state, level, pos, player, hand, hitResult);
         }
     }
 
@@ -202,12 +203,4 @@ public class BranchBlock extends HorizontalDirectionalBlock implements SimpleWat
         return 100;
     }
 
-    @Override
-    protected @NotNull MapCodec<? extends BranchBlock> codec() {
-        return RecordCodecBuilder.mapCodec(instance -> instance.group(
-            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("log").forGetter((it) -> log),
-            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("fallenLeaves").forGetter((it) -> fallenLeaves),
-            Properties.CODEC.fieldOf("properties").forGetter((it) -> properties)
-        ).apply(instance, BranchBlock::new));
-    }
 }

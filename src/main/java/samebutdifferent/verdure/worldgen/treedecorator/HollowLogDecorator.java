@@ -1,5 +1,6 @@
 package samebutdifferent.verdure.worldgen.treedecorator;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,7 +13,7 @@ import samebutdifferent.verdure.registry.VerdureTreeDecoratorTypes;
 
 public class HollowLogDecorator extends TreeDecorator {
 
-    public static final MapCodec<HollowLogDecorator> CODEC = MapCodec.unit(() -> HollowLogDecorator.INSTANCE);
+    public static final Codec<HollowLogDecorator> CODEC = Codec.unit(() -> HollowLogDecorator.INSTANCE);
     public static final HollowLogDecorator INSTANCE = new HollowLogDecorator();
 
     @Override

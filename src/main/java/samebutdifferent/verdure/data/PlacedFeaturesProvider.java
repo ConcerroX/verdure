@@ -5,7 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -25,10 +25,10 @@ import java.util.List;
 
 public class PlacedFeaturesProvider implements RegistrySetBuilder.RegistryBootstrap<PlacedFeature> {
 
-    private BootstrapContext<PlacedFeature> context;
+    private BootstapContext<PlacedFeature> context;
 
     @Override
-    public void run(@NotNull BootstrapContext<PlacedFeature> context) {
+    public void run(@NotNull BootstapContext<PlacedFeature> context) {
         this.context = context;
 
         var boulderPlacement = List.of(

@@ -3,7 +3,6 @@ package samebutdifferent.verdure.registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
-import net.neoforged.neoforge.common.Tags;
 import samebutdifferent.verdure.Verdure;
 
 public class VerdureTags {

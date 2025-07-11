@@ -5,8 +5,8 @@ import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import samebutdifferent.verdure.Verdure;
 
@@ -17,7 +17,7 @@ public class RegistryDataProvider implements DataProvider.Factory<DatapackBuilti
 
     private final CompletableFuture<HolderLookup.Provider> lookupProvider;
 
-    private final RegistrySetBuilder builder = new RegistrySetBuilder().add(NeoForgeRegistries.Keys.BIOME_MODIFIERS,
+    private final RegistrySetBuilder builder = new RegistrySetBuilder().add(ForgeRegistries.Keys.BIOME_MODIFIERS,
         bootstrap -> new BiomeModifiersProvider().run(bootstrap)).add(Registries.CONFIGURED_FEATURE,
         bootstrap -> new ConfiguredFeaturesProvider().run(bootstrap)).add(Registries.PLACED_FEATURE,
         bootstrap -> new PlacedFeaturesProvider().run(bootstrap));

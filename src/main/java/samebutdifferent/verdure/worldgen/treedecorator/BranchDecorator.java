@@ -1,5 +1,6 @@
 package samebutdifferent.verdure.worldgen.treedecorator;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -18,7 +19,7 @@ import java.util.function.Supplier;
 
 public class BranchDecorator extends TreeDecorator {
 
-    public static final MapCodec<BranchDecorator> CODEC = RecordCodecBuilder.mapCodec(
+    public static final Codec<BranchDecorator> CODEC = RecordCodecBuilder.create(
         instance -> instance.group(BlockState.CODEC.fieldOf("state").forGetter((it) -> it.state))
             .apply(instance, BranchDecorator::new));
 
@@ -43,14 +44,14 @@ public class BranchDecorator extends TreeDecorator {
         state = lazyState != null ? lazyState.get() : state;
         if (context.leaves().isEmpty() || !VerdureConfig.GENERATE_TREE_BRANCHES.get())
             return;
-        int lowestLeafY = context.leaves().getFirst().getY();
+        int lowestLeafY = context.leaves().get(0).getY();
         List<BlockPos> exposedLogs = context.logs().stream().filter(blockPos -> blockPos.getY() < lowestLeafY).toList();
         if (exposedLogs.size() <= 2)
             return;
 
         Direction zRand = context.random().nextBoolean() ? Direction.NORTH : Direction.SOUTH;
         Direction xRand = context.random().nextBoolean() ? Direction.EAST : Direction.WEST;
-        BlockPos posFirst = exposedLogs.getLast();
+        BlockPos posFirst = exposedLogs.get(exposedLogs.size() - 1);
         if (context.level().isStateAtPosition(posFirst.relative(xRand), BlockBehaviour.BlockStateBase::isAir)) {
             context.setBlock(posFirst.relative(xRand), state.setValue(HorizontalDirectionalBlock.FACING, xRand));
         }

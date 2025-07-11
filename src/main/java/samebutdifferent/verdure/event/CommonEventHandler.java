@@ -16,19 +16,19 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
-import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
-import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import samebutdifferent.verdure.Verdure;
 import samebutdifferent.verdure.block.WallRootsBlock;
 import samebutdifferent.verdure.registry.VerdureBlocks;
 import samebutdifferent.verdure.util.CodecUtils;
 
-@EventBusSubscriber(modid = Verdure.MOD_ID)
+@Mod.EventBusSubscriber(modid = Verdure.MOD_ID)
 public class CommonEventHandler {
 
     @SubscribeEvent
@@ -158,7 +158,7 @@ public class CommonEventHandler {
 
     @SubscribeEvent
     public static void onBlockToolModification(BlockEvent.BlockToolModificationEvent event) {
-        if (event.getItemAbility().equals(ItemAbilities.HOE_TILL)) {
+        if (event.getToolAction().equals(ToolActions.HOE_TILL)) {
             if (event.getState().is(VerdureBlocks.SMOOTH_DIRT.get())) {
                 event.setFinalState(Blocks.FARMLAND.defaultBlockState());
             }

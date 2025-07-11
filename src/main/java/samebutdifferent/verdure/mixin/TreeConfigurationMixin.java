@@ -13,7 +13,9 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,10 +30,12 @@ import java.util.Optional;
 @Mixin(TreeConfiguration.class)
 public class TreeConfigurationMixin {
 
+    @Mutable
     @Shadow
+    @Final
     public List<TreeDecorator> decorators;
 
-    @Inject(at = @At("RETURN"), method = "<init>")
+    @Inject(method = "<init>", at = @At("RETURN"))
     private void onConstructor(BlockStateProvider trunkProvider, TrunkPlacer trunkPlacer,
         BlockStateProvider foliageProvider, FoliagePlacer foliagePlacer, Optional<RootPlacer> rootPlacer,
         BlockStateProvider dirtProvider, FeatureSize minimumSize, List<TreeDecorator> decorators, boolean ignoreVines,

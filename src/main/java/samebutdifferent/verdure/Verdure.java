@@ -1,13 +1,13 @@
 package samebutdifferent.verdure;
 
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import samebutdifferent.verdure.registry.*;
 
 @Mod(Verdure.MOD_ID)
@@ -15,9 +15,10 @@ public class Verdure {
 
     public static final String MOD_ID = "verdure";
 
-    public Verdure(IEventBus bus, ModContainer container) {
-        container.registerConfig(ModConfig.Type.COMMON, VerdureConfig.COMMON_CONFIG);
-        NeoForge.EVENT_BUS.register(this);
+    public Verdure() {
+        var bus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, VerdureConfig.COMMON_CONFIG);
+        MinecraftForge.EVENT_BUS.register(this);
 
         VerdureItems.ITEMS.register(bus);
         VerdureBlocks.BLOCKS.register(bus);
@@ -30,7 +31,7 @@ public class Verdure {
     }
 
     public static ResourceLocation res(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+        return new ResourceLocation(MOD_ID, path);
     }
 
     @SubscribeEvent

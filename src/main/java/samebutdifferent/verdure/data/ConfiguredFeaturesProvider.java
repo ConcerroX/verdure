@@ -2,7 +2,7 @@ package samebutdifferent.verdure.data;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.block.Blocks;
@@ -24,7 +24,7 @@ import samebutdifferent.verdure.registry.VerdureFeatures;
 public class ConfiguredFeaturesProvider implements RegistrySetBuilder.RegistryBootstrap<ConfiguredFeature<?, ?>> {
 
     @Override
-    public void run(@NotNull BootstrapContext<ConfiguredFeature<?, ?>> context) {
+    public void run(@NotNull BootstapContext<ConfiguredFeature<?, ?>> context) {
         context.register(VerdureConfiguredFeatures.BOULDER_STONE, new ConfiguredFeature<>(Feature.FOREST_ROCK,
             new BlockStateConfiguration(Blocks.STONE.defaultBlockState())));
         context.register(VerdureConfiguredFeatures.BOULDER_DIORITE, new ConfiguredFeature<>(Feature.FOREST_ROCK,

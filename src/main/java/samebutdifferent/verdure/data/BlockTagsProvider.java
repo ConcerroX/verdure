@@ -3,14 +3,14 @@ package samebutdifferent.verdure.data;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import samebutdifferent.verdure.Verdure;
 import samebutdifferent.verdure.registry.VerdureBlocks;
 
 import java.util.concurrent.CompletableFuture;
 
-public class BlockTagsProvider extends net.neoforged.neoforge.common.data.BlockTagsProvider {
+public class BlockTagsProvider extends net.minecraftforge.common.data.BlockTagsProvider {
 
     public BlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider,
         ExistingFileHelper existingFileHelper
@@ -19,7 +19,7 @@ public class BlockTagsProvider extends net.neoforged.neoforge.common.data.BlockT
     }
 
     @Override
-    protected void addTags(HolderLookup.@NotNull Provider provider) {
+    protected void addTags(@NotNull HolderLookup.Provider provider) {
         tag(BlockTags.MINEABLE_WITH_AXE).add(VerdureBlocks.OAK_BRANCH.get(), VerdureBlocks.BIRCH_BRANCH.get());
         tag(BlockTags.MINEABLE_WITH_SHOVEL).add(VerdureBlocks.SMOOTH_DIRT.get(), VerdureBlocks.DRIED_MUD.get(),
             VerdureBlocks.HUMUS.get());

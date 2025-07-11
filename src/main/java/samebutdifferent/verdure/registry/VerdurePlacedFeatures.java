@@ -7,8 +7,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.placement.*;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import samebutdifferent.verdure.Verdure;
 
 import java.util.List;
@@ -25,18 +25,19 @@ public class VerdurePlacedFeatures {
     public static final ResourceKey<PlacedFeature> BOULDER_ANDESITE = create("boulder_andesite");
     public static final ResourceKey<PlacedFeature> BOULDER_SLATE = create("boulder_slate");
 
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> SMOOTH_DIRT_PATCH = PLACED_FEATURES.register(
-        "smooth_dirt_patch", () -> new PlacedFeature(VerdureConfiguredFeatures.SMOOTH_DIRT_PATCH,
-            List.of(RarityFilter.onAverageOnceEvery(7), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
-                BiomeFilter.biome())));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> SMOOTH_DIRT_PATCH_SWAMP = PLACED_FEATURES.register(
-        "smooth_dirt_patch_swamp", () -> new PlacedFeature(VerdureConfiguredFeatures.SMOOTH_DIRT_PATCH_SWAMP,
-            List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
-                BiomeFilter.biome())));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> HUMUS_PATCH = PLACED_FEATURES.register(
-        "humus_patch", () -> new PlacedFeature(VerdureConfiguredFeatures.HUMUS_PATCH,
-            List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
-                BiomeFilter.biome())));
+//    public static final RegistryObject<PlacedFeature> SMOOTH_DIRT_PATCH = PLACED_FEATURES.register("smooth_dirt_patch",
+//        () -> new PlacedFeature(VerdureConfiguredFeatures.SMOOTH_DIRT_PATCH.getHolder().orElseThrow(),
+//            List.of(RarityFilter.onAverageOnceEvery(7), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
+//                BiomeFilter.biome())));
+//    public static final RegistryObject<PlacedFeature> SMOOTH_DIRT_PATCH_SWAMP = PLACED_FEATURES.register(
+//        "smooth_dirt_patch_swamp",
+//        () -> new PlacedFeature(VerdureConfiguredFeatures.SMOOTH_DIRT_PATCH_SWAMP.getHolder().orElseThrow(),
+//            List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
+//                BiomeFilter.biome())));
+//    public static final RegistryObject<PlacedFeature> HUMUS_PATCH = PLACED_FEATURES.register("humus_patch",
+//        () -> new PlacedFeature(VerdureConfiguredFeatures.HUMUS_PATCH.getHolder().orElseThrow(),
+//            List.of(RarityFilter.onAverageOnceEvery(4), InSquarePlacement.spread(), PlacementUtils.HEIGHTMAP,
+//                BiomeFilter.biome())));
 
     // VEGETATION PLACEMENTS
     public static final ResourceKey<PlacedFeature> PEBBLES = create("pebbles");
@@ -48,11 +49,11 @@ public class VerdurePlacedFeatures {
     public static final ResourceKey<PlacedFeature> PATCH_DAISIES_PINK = create("patch_daisies_pink");
     public static final ResourceKey<PlacedFeature> PATCH_WILDFLOWERS = create("patch_wildflowers");
 
-//    public static final DeferredHolder<PlacedFeature, PlacedFeature> FALLEN_LOG = PLACED_FEATURES.register("fallen_log",
-//        () -> new PlacedFeature(VerdureConfiguredFeatures.FALLEN_LOG, worldSurfaceSquaredWithRarityFilter(7)));
-//    public static final DeferredHolder<PlacedFeature, PlacedFeature> FALLEN_LOG_SAVANNA = PLACED_FEATURES.register(
-//        "fallen_log_savanna",
-//        () -> new PlacedFeature(VerdureConfiguredFeatures.FALLEN_LOG, worldSurfaceSquaredWithRarityFilter(11)));
+    //    public static final RegistryObject<PlacedFeature, PlacedFeature> FALLEN_LOG = PLACED_FEATURES.register("fallen_log",
+    //        () -> new PlacedFeature(VerdureConfiguredFeatures.FALLEN_LOG, worldSurfaceSquaredWithRarityFilter(7)));
+    //    public static final RegistryObject<PlacedFeature, PlacedFeature> FALLEN_LOG_SAVANNA = PLACED_FEATURES.register(
+    //        "fallen_log_savanna",
+    //        () -> new PlacedFeature(VerdureConfiguredFeatures.FALLEN_LOG, worldSurfaceSquaredWithRarityFilter(11)));
 
     // CAVE PLACEMENTS
     public static final ResourceKey<PlacedFeature> MUSHROOM_SHELF = create("mushroom_shelf");
@@ -60,40 +61,40 @@ public class VerdurePlacedFeatures {
     public static final ResourceKey<PlacedFeature> HANGING_MOSS = create("hanging_moss");
 
     // TREE PLACEMENTS
-//    public static final DeferredHolder<PlacedFeature, PlacedFeature> OAK_DAISIES = PLACED_FEATURES.register(
-//        "oak_daisies", () -> new PlacedFeature(VerdureConfiguredFeatures.OAK_DAISIES,
-//            List.of(RarityFilter.onAverageOnceEvery(13), InSquarePlacement.spread(),
+    //    public static final RegistryObject<PlacedFeature, PlacedFeature> OAK_DAISIES = PLACED_FEATURES.register(
+    //        "oak_daisies", () -> new PlacedFeature(VerdureConfiguredFeatures.OAK_DAISIES,
+    //            List.of(RarityFilter.onAverageOnceEvery(13), InSquarePlacement.spread(),
+    //                SurfaceWaterDepthFilter.forMaxDepth(0), PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
+    //                BlockPredicateFilter.forPredicate(
+    //                    BlockPredicate.wouldSurvive(Blocks.OAK_SAPLING.defaultBlockState(), BlockPos.ZERO)),
+    //                BiomeFilter.biome())));
+    //    public static final RegistryObject<PlacedFeature, PlacedFeature> BIRCH_DAISIES = PLACED_FEATURES.register(
+    //        "birch_daisies", () -> new PlacedFeature(VerdureConfiguredFeatures.BIRCH_DAISIES,
+    //            List.of(RarityFilter.onAverageOnceEvery(13), InSquarePlacement.spread(),
+    //                SurfaceWaterDepthFilter.forMaxDepth(0), PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
+    //                BlockPredicateFilter.forPredicate(
+    //                    BlockPredicate.wouldSurvive(Blocks.BIRCH_SAPLING.defaultBlockState(), BlockPos.ZERO)),
+    //                BiomeFilter.biome())));
+
+//    public static final RegistryObject<PlacedFeature> OAK_HOLLOW = PLACED_FEATURES.register("oak_hollow",
+//        () -> new PlacedFeature(VerdureConfiguredFeatures.OAK_HOLLOW.getHolder().orElseThrow(),
+//            List.of(RarityFilter.onAverageOnceEvery(10), InSquarePlacement.spread(),
 //                SurfaceWaterDepthFilter.forMaxDepth(0), PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
 //                BlockPredicateFilter.forPredicate(
 //                    BlockPredicate.wouldSurvive(Blocks.OAK_SAPLING.defaultBlockState(), BlockPos.ZERO)),
 //                BiomeFilter.biome())));
-//    public static final DeferredHolder<PlacedFeature, PlacedFeature> BIRCH_DAISIES = PLACED_FEATURES.register(
-//        "birch_daisies", () -> new PlacedFeature(VerdureConfiguredFeatures.BIRCH_DAISIES,
-//            List.of(RarityFilter.onAverageOnceEvery(13), InSquarePlacement.spread(),
+//    public static final RegistryObject<PlacedFeature> FANCY_OAK_HOLLOW = PLACED_FEATURES.register("fancy_oak_hollow",
+//        () -> new PlacedFeature(VerdureConfiguredFeatures.FANCY_OAK_HOLLOW.getHolder().orElseThrow(),
+//            List.of(RarityFilter.onAverageOnceEvery(10), InSquarePlacement.spread(),
 //                SurfaceWaterDepthFilter.forMaxDepth(0), PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
 //                BlockPredicateFilter.forPredicate(
-//                    BlockPredicate.wouldSurvive(Blocks.BIRCH_SAPLING.defaultBlockState(), BlockPos.ZERO)),
+//                    BlockPredicate.wouldSurvive(Blocks.OAK_SAPLING.defaultBlockState(), BlockPos.ZERO)),
 //                BiomeFilter.biome())));
 
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> OAK_HOLLOW = PLACED_FEATURES.register("oak_hollow",
-        () -> new PlacedFeature(VerdureConfiguredFeatures.OAK_HOLLOW,
-            List.of(RarityFilter.onAverageOnceEvery(10), InSquarePlacement.spread(),
-                SurfaceWaterDepthFilter.forMaxDepth(0), PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
-                BlockPredicateFilter.forPredicate(
-                    BlockPredicate.wouldSurvive(Blocks.OAK_SAPLING.defaultBlockState(), BlockPos.ZERO)),
-                BiomeFilter.biome())));
-    public static final DeferredHolder<PlacedFeature, PlacedFeature> FANCY_OAK_HOLLOW = PLACED_FEATURES.register(
-        "fancy_oak_hollow", () -> new PlacedFeature(VerdureConfiguredFeatures.FANCY_OAK_HOLLOW,
-            List.of(RarityFilter.onAverageOnceEvery(10), InSquarePlacement.spread(),
-                SurfaceWaterDepthFilter.forMaxDepth(0), PlacementUtils.HEIGHTMAP_OCEAN_FLOOR,
-                BlockPredicateFilter.forPredicate(
-                    BlockPredicate.wouldSurvive(Blocks.OAK_SAPLING.defaultBlockState(), BlockPos.ZERO)),
-                BiomeFilter.biome())));
-
     // NETHER PLACEMENTS
-//    public static final DeferredHolder<PlacedFeature, PlacedFeature> FALLEN_LOG_NETHER = PLACED_FEATURES.register(
-//        "fallen_log_nether", () -> new PlacedFeature(VerdureConfiguredFeatures.FALLEN_LOG,
-//            List.of(CountOnEveryLayerPlacement.of(3), BiomeFilter.biome())));
+    //    public static final RegistryObject<PlacedFeature, PlacedFeature> FALLEN_LOG_NETHER = PLACED_FEATURES.register(
+    //        "fallen_log_nether", () -> new PlacedFeature(VerdureConfiguredFeatures.FALLEN_LOG,
+    //            List.of(CountOnEveryLayerPlacement.of(3), BiomeFilter.biome())));
 
     public static List<PlacementModifier> worldSurfaceSquaredWithRarityFilter(int chance) {
         return List.of(RarityFilter.onAverageOnceEvery(chance), InSquarePlacement.spread(),

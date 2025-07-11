@@ -23,7 +23,7 @@ import java.util.function.BiConsumer;
 
 public class DaisiesDecorator extends TreeDecorator {
 
-    public static final MapCodec<DaisiesDecorator> CODEC = MapCodec.unit(() -> DaisiesDecorator.INSTANCE);
+    public static final Codec<DaisiesDecorator> CODEC = Codec.unit(() -> DaisiesDecorator.INSTANCE);
     public static final DaisiesDecorator INSTANCE = new DaisiesDecorator();
 
     @Override

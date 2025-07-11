@@ -12,11 +12,6 @@ public class DaisiesBlock extends MultifaceBlock {
     }
 
     @Override
-    protected @NotNull MapCodec<? extends MultifaceBlock> codec() {
-        return simpleCodec(DaisiesBlock::new);
-    }
-
-    @Override
     public @NotNull MultifaceSpreader getSpreader() {
         return new MultifaceSpreader(this);
     }

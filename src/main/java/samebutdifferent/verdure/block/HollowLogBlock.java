@@ -3,7 +3,6 @@ package samebutdifferent.verdure.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -31,11 +30,6 @@ public class HollowLogBlock extends BaseEntityBlock {
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH));
     }
 
-    @Override
-    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(HollowLogBlock::new);
-    }
-
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
@@ -48,8 +42,8 @@ public class HollowLogBlock extends BaseEntityBlock {
         ItemStack pStack
     ) {
         BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-        if (pStack.has(DataComponents.CUSTOM_NAME) && blockEntity instanceof BaseContainerBlockEntity) {
-            blockEntity.applyComponentsFromItemStack(pStack);
+        if (pStack.hasCustomHoverName() && blockEntity instanceof BaseContainerBlockEntity) {
+            ((BaseContainerBlockEntity) blockEntity).setCustomName(pStack.getHoverName());
         }
     }
 
@@ -67,8 +61,8 @@ public class HollowLogBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull ItemInteractionResult useItemOn(
-        @NotNull ItemStack stack, @NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player,
+    public @NotNull InteractionResult use(
+        @NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player,
         @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult
     ) {
         if (!level.isClientSide) {
@@ -77,7 +71,7 @@ public class HollowLogBlock extends BaseEntityBlock {
                 player.openMenu(provider);
             }
         }
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Nullable

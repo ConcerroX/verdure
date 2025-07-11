@@ -35,11 +35,6 @@ public class WallRootsBlock extends HorizontalDirectionalBlock implements Simple
     }
 
     @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return simpleCodec(WallRootsBlock::new);
-    }
-
-    @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         switch(pState.getValue(FACING)) {
             case NORTH:

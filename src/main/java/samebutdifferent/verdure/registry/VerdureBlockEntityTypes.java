@@ -2,8 +2,8 @@ package samebutdifferent.verdure.registry;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import samebutdifferent.verdure.Verdure;
 import samebutdifferent.verdure.block.entity.HollowLogBlockEntity;
 
@@ -14,7 +14,7 @@ public class VerdureBlockEntityTypes {
         Verdure.MOD_ID
     );
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HollowLogBlockEntity>> HOLLOW_LOG = BLOCK_ENTITY_TYPES.register(
+    public static final RegistryObject<BlockEntityType<HollowLogBlockEntity>> HOLLOW_LOG = BLOCK_ENTITY_TYPES.register(
         "hollow_log",
         () -> BlockEntityType.Builder.of(HollowLogBlockEntity::new, VerdureBlocks.HOLLOW_LOG.get()).build(null)
     );

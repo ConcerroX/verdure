@@ -51,19 +51,19 @@ public class HollowLogBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void load(@NotNull CompoundTag tag) {
+        super.load(tag);
         items.clear();
         if (!tryLoadLootTable(tag)) {
-            ContainerHelper.loadAllItems(tag, items, registries);
+            ContainerHelper.loadAllItems(tag, items);
         }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    public void saveAdditional(@NotNull CompoundTag tag) {
+        super.saveAdditional(tag);
         if (!trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, items, registries);
+            ContainerHelper.saveAllItems(tag, items);
         }
     }
 
